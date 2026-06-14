@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi Pasien</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100">
+    <section class="min-h-screen flex items-center justify-center p-6">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-xl p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-slate-800">
+                    Registrasi Pasien
+                </h1>
+                <p class="text-slate-500 mt-2">
+                    Silakan isi data diri pasien dengan lengkap
+                </p>
+            </div>
+            <form method="POST" class="space-y-5">
+                <div>
+                    <label class="block mb-2 font-medium">
+                        NIK
+                    </label>
+                    <input type="text" name="nik" required 
+                            class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block mb-2 font-medium">Nama Lengkap</label>
+                    <input type="text" name="nama" required
+                            class="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+
+                    <div>
+                        <label class="block mb-2 font-medium"> Umur </label>
+                        <input type="number" name="umur" required
+                               class="w-full border rounded-xl px-4 py-3">
+                    </div>
+
+                    <div>
+                        <label class="block mb-2 font-medium">Jenis Kelamin</label>
+
+                        <select name="jenis_kelamin" required
+                                class="w-full border rounded-xl px-4 py-3">
+
+                            <option value="">Pilih</option>
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-2 font-medium"> Nomor HP
+                    </label>
+
+                    <input type="text" name="no_hp" required 
+                    class="w-full border rounded-xl px-4 py-3">
+                </div>
+
+                <div class="flex gap-3 pt-4">
+
+                    <a href="/" class="flex-1 text-center border border-slate-300 py-3 rounded-xl"> Kembali </a>
+
+                    <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-medium"> Simpan Data </button>
+
+                </div>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>
