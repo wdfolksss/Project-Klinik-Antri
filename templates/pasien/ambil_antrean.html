@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100">
+    <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl">
+        <h1 class="text-2xl font-bold mb-5">Ambil Nomor Antrean</h1>
+        <form action="/ambil-antrean" method="POST">
+            <select name="poli" class="border p-3 w-full rounded">
+                <option>Poli Umum</option>
+                <option>Poli Gigi</option>
+                <option>Poli Anak</option>
+            </select>
+            <button class="mt-5 bg-emerald-500 text-white p-3 rounded w-full">Ambil Antrean</button>
+        </form>
+    </div>
+</body>
+</html>
