@@ -21,7 +21,7 @@ def init_db():
         )
     """)
     conn.commit()
-    conn.close()
+    conn.close()    
 
 @app.route("/")
 def home():
