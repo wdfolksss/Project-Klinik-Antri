@@ -10,6 +10,8 @@ def get_db():
 
 def init_db():
     conn = get_db()
+
+    # tabel pasien
     conn.execute("""
         CREATE TABLE IF NOT EXISTS pasien (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,8 +22,36 @@ def init_db():
             no_hp TEXT NOT NULL
         )
     """)
+
+    # tabel antrean
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS antrean (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_pasien INTEGER NOT NULL,
+            no_antrean TEXT NOT NULL,
+            poli TEXT NOT NULL,
+            status TEXT NOT NULL,
+            waktu_daftar TEXT NOT NULL,
+
+            FOREIGN KEY (id_pasien) REFERENCES pasien(id)
+        )
+    """)
+
+    # tabel rekam medis
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS rekam_medis (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_pasien INTEGER NOT NULL,
+            keluhan TEXT NOT NULL,
+            diagnosa TEXT NOT NULL,
+            resep TEXT NOT NULL,
+            tanggal_periksa TEXT NOT NULL,
+
+            FOREIGN KEY (id_pasien) REFERENCES pasien(id)
+        )
+    """)
     conn.commit()
-    conn.close()    
+    conn.close()  
 
 @app.route("/")
 def home():
@@ -32,7 +62,12 @@ def registrasi():
     if request.method == "POST":
         nik = request.form["nik"]
         nama = request.form["nama"]
-        umur = int(request.form["umur"])
+
+        try:
+            umur = int(request.form["umur"])
+        except:
+            return "ERROR: Data tidak valid"
+        
         jenis_kelamin = request.form["jenis_kelamin"]
         no_hp = request.form["no_hp"]
 
