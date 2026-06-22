@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Rekam Medis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100">
+
+    <div class="max-w-3xl mx-auto px-6 py-10">
+        <div class="bg-white rounded-3xl shadow-lg p-8">
+            <p class="text-sm text-blue-600 font-semibold">DOKTER</p>
+            <h1 class="text-3xl font-bold text-slate-800 mt-2">Input Rekam Medis</h1>
+            <p class="text-slate-500 mt-2">Isi hasil pemeriksaan pasien.</p>
+
+            <form method="POST" class="mt-8 space-y-5">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2">Keluhan</label>
+                    <textarea name="keluhan" required class="w-full rounded-xl border border-slate-300 p-4 focus:ring-2 focus:ring-blue-500 outline-none" rows="3"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2">Diagnosa</label>
+                    <textarea name="diagnosa" required class="w-full rounded-xl border border-slate-300 p-4 focus:ring-2 focus:ring-blue-500 outline-none" rows="3"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2">Resep Obat</label>
+                    <textarea name="resep" required class="w-full rounded-xl border border-slate-300 p-4 focus:ring-2 focus:ring-blue-500 outline-none" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700">
+                    Simpan Rekam Medis
+                </button>
+            </form>
+
+            <a href="/dokter/antrean" class="inline-block mt-6 text-slate-600 hover:text-blue-600">
+                ← Kembali
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

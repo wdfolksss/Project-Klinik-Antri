@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Dokter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100">
+
+    <div class="max-w-5xl mx-auto px-6 py-10">
+        <div class="bg-white rounded-3xl shadow-lg p-8">
+            <p class="text-sm text-blue-600 font-semibold">KLINIK-ANTRI</p>
+            <h1 class="text-3xl font-bold text-slate-800 mt-2">Dashboard Dokter</h1>
+            <p class="text-slate-500 mt-2">Kelola antrean pasien dan rekam medis dengan mudah.</p>
+
+            <div class="grid md:grid-cols-3 gap-6 mt-8">
+                <a href="/dokter/antrean" class="p-6 rounded-2xl bg-blue-50 hover:bg-blue-100 transition">
+                    <h2 class="text-xl font-semibold text-blue-700">Lihat Antrean</h2>
+                    <p class="text-slate-600 mt-2">Cek daftar antrean pasien hari ini.</p>
+                </a>
+
+                <a href="/dokter/panggil" class="p-6 rounded-2xl bg-emerald-50 hover:bg-emerald-100 transition">
+                    <h2 class="text-xl font-semibold text-emerald-700">Panggil Pasien</h2>
+                    <p class="text-slate-600 mt-2">Panggil pasien berikutnya.</p>
+                </a>
+
+                <a href="/" class="p-6 rounded-2xl bg-rose-50 hover:bg-rose-100 transition">
+                    <h2 class="text-xl font-semibold text-rose-700">Logout</h2>
+                    <p class="text-slate-600 mt-2">Kembali ke halaman pasien.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

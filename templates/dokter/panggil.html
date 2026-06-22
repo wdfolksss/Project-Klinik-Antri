@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Antrean Dokter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100">
+
+    <div class="max-w-6xl mx-auto px-6 py-10">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <p class="text-sm text-blue-600 font-semibold">DASHBOARD DOKTER</p>
+                <h1 class="text-3xl font-bold text-slate-800">Daftar Antrean Hari Ini</h1>
+            </div>
+
+            <a href="/dokter/panggil" class="bg-blue-600 text-white px-5 py-3 rounded-xl hover:bg-blue-700">
+                Panggil Berikutnya
+            </a>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-4">No Antrean</th>
+                        <th class="p-4">Nama Pasien</th>
+                        <th class="p-4">Poli</th>
+                        <th class="p-4">Status</th>
+                        <th class="p-4">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in antrean %}
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-4 font-semibold">{{ a.no_antrean }}</td>
+                        <td class="p-4">{{ a.nama }}</td>
+                        <td class="p-4">{{ a.poli }}</td>
+                        <td class="p-4">
+                            {% if a.status == "MENUNGGU" %}
+                                <span class="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-700">MENUNGGU</span>
+                            {% elif a.status == "DIPERIKSA" %}
+                                <span class="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700">DIPERIKSA</span>
+                            {% else %}
+                                <span class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">SELESAI</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-4">
+                            {% if a.status == "DIPERIKSA" %}
+                                <a href="/dokter/rekam-medis/{{ a.id_pasien }}" class="text-blue-600 font-semibold hover:underline">
+                                    Rekam Medis
+                                </a>
+                                <span class="mx-2 text-slate-300">|</span>
+                                <a href="/dokter/selesai/{{ a.id }}" class="text-green-600 font-semibold hover:underline">
+                                    Selesai
+                                </a>
+                            {% else %}
+                                <span class="text-slate-400">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/dokter" class="inline-block mt-6 text-slate-600 hover:text-blue-600">
+            ← Kembali ke Dashboard
+        </a>
+    </div>
+
+</body>
+</html>
