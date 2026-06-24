@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Pasien</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Data Pasien</h1>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-slate-800 text-white">
+                <tr>
+                    <th class="p-4">NIK</th>
+                    <th class="p-4">Nama</th>
+                    <th class="p-4">Umur</th>
+                    <th class="p-4">JK</th>
+                    <th class="p-4">No HP</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in pasien %}
+                <tr class="border-b">
+                    <td class="p-4">{{ p.nik }}</td>
+                    <td class="p-4">{{ p.nama }}</td>
+                    <td class="p-4">{{ p.umur }}</td>
+                    <td class="p-4">{{ p.jenis_kelamin }}</td>
+                    <td class="p-4">{{ p.no_hp }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="p-6 text-center text-slate-500">
+                        Belum ada data pasien.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

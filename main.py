@@ -7,40 +7,29 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+#database nya
 def init_db():
     conn = get_db()
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS pasien (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nik TEXT NOT NULL,
-            nama TEXT NOT NULL,
-            umur INTEGER NOT NULL,
-            jenis_kelamin TEXT NOT NULL,
-            no_hp TEXT NOT NULL
+            id INTEGER PRIMARY KEY AUTOINCREMENT, nik TEXT NOT NULL,nama TEXT NOT NULL,
+            umur INTEGER NOT NULL, jenis_kelamin TEXT NOT NULL, no_hp TEXT NOT NULL
         )
     """)
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS antrean (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_pasien INTEGER NOT NULL,
-            no_antrean TEXT NOT NULL,
-            poli TEXT NOT NULL,
-            status TEXT NOT NULL,
-            waktu_daftar TEXT NOT NULL,
+            id INTEGER PRIMARY KEY AUTOINCREMENT, id_pasien INTEGER NOT NULL, no_antrean TEXT NOT NULL,
+            poli TEXT NOT NULL, status TEXT NOT NULL, waktu_daftar TEXT NOT NULL,
             FOREIGN KEY (id_pasien) REFERENCES pasien(id)
         )
     """)
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS rekam_medis (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_pasien INTEGER NOT NULL,
-            keluhan TEXT NOT NULL,
-            diagnosa TEXT NOT NULL,
-            resep TEXT NOT NULL,
-            tanggal_periksa TEXT NOT NULL,
+            id INTEGER PRIMARY KEY AUTOINCREMENT, id_pasien INTEGER NOT NULL, keluhan TEXT NOT NULL,
+            diagnosa TEXT NOT NULL, resep TEXT NOT NULL, tanggal_periksa TEXT NOT NULL,
             FOREIGN KEY (id_pasien) REFERENCES pasien(id)
         )
     """)
@@ -48,7 +37,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-
+#estimasi waktu
 def hitung_estimasi(conn, poli, id_antrean, status):
     if status == "MENUNGGU":
         posisi = conn.execute("""
@@ -60,15 +49,15 @@ def hitung_estimasi(conn, poli, id_antrean, status):
         """, (poli, id_antrean)).fetchone()[0]
 
         return posisi * 15
-
+    
     return 0
 
-
+#pasien
 @app.route("/")
 def home():
     return render_template("pasien/registrasi.html")
 
-
+#registrasi
 @app.route("/registrasi", methods=["GET", "POST"])
 def registrasi():
     if request.method == "POST":
@@ -96,10 +85,10 @@ def registrasi():
         conn.close()
 
         return redirect("/ambil-antrean")
-
+    
     return render_template("pasien/registrasi.html")
 
-
+#ambil antrean
 @app.route("/ambil-antrean", methods=["GET", "POST"])
 def ambil_antrean():
     if request.method == "POST":
@@ -152,10 +141,10 @@ def ambil_antrean():
         conn.close()
 
         return redirect(f"/status-antrean/{id_antrean}")
-
+    
     return render_template("pasien/ambil_antrean.html")
 
-
+#status antrean
 @app.route("/status-antrean/<int:id_antrean>")
 def status_antrean(id_antrean):
     conn = get_db()
@@ -185,7 +174,7 @@ def status_antrean(id_antrean):
         estimasi=estimasi
     )
 
-
+#lihat antrean
 @app.route("/lihat-antrean")
 def lihat_antrean_saya():
     conn = get_db()
@@ -221,12 +210,12 @@ def lihat_antrean_saya():
 
     return redirect(f"/status-antrean/{id_antrean}")
 
-
+#dokter
 @app.route("/dokter")
 def dashboard_dokter():
     return render_template("dokter/dashboard.html")
 
-
+#antrean (dokter)
 @app.route("/dokter/antrean")
 def lihat_antrean_dokter():
     conn = get_db()
@@ -242,7 +231,7 @@ def lihat_antrean_dokter():
 
     return render_template("dokter/panggil.html", antrean=antrean)
 
-
+#sistem panggilan (dokter)
 @app.route("/dokter/panggil")
 def panggil_antrean():
     conn = get_db()
@@ -267,7 +256,7 @@ def panggil_antrean():
 
     return redirect("/dokter/antrean")
 
-
+#rekam medis (dokter)
 @app.route("/dokter/rekam-medis/<int:id_pasien>", methods=["GET", "POST"])
 def input_rekam_medis(id_pasien):
     if request.method == "POST":
@@ -294,10 +283,10 @@ def input_rekam_medis(id_pasien):
         conn.close()
 
         return redirect("/dokter/antrean")
-
+    
     return render_template("dokter/rekam_medis.html", id_pasien=id_pasien)
 
-
+#menyelesaikan pemeriksaan 
 @app.route("/dokter/selesai/<int:id>")
 def selesai_pemeriksaan(id):
     conn = get_db()
@@ -313,8 +302,32 @@ def selesai_pemeriksaan(id):
 
     return redirect("/dokter/antrean")
 
+#riwayat medis (dokter)
+@app.route("/dokter/riwayat_medis")
+def riwayat_rekam_medis():
+
+    conn = get_db()
+
+    riwayat = conn.execute("""
+        SELECT rekam_medis.*, pasien.nama
+        FROM rekam_medis
+        JOIN pasien
+        ON rekam_medis.id_pasien = pasien.id
+        ORDER BY rekam_medis.id DESC
+    """).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "dokter/riwayat_medis.html",
+        riwayat=riwayat
+    )
+
+#laporan admin
 @app.route("/laporan")
 def laporan_klinik():
+    keyword = request.args.get("keyword", "")
+
     conn = get_db()
 
     total_pasien = conn.execute("""
@@ -355,8 +368,23 @@ def laporan_klinik():
     riwayat = conn.execute("""
         SELECT rekam_medis.*, pasien.nama
         FROM rekam_medis
-        JOIN pasien ON rekam_medis.id_pasien = pasien.id
+        JOIN pasien
+        ON rekam_medis.id_pasien = pasien.id
+        WHERE pasien.nama LIKE ?
         ORDER BY rekam_medis.id DESC
+    """, (f"%{keyword}%",)).fetchall()
+
+    pasien = conn.execute("""
+        SELECT *
+        FROM pasien
+        ORDER BY id DESC
+    """).fetchall()
+
+    antrean = conn.execute("""
+        SELECT antrean.*, pasien.nama
+        FROM antrean
+        JOIN pasien ON antrean.id_pasien = pasien.id
+        ORDER BY antrean.id DESC
     """).fetchall()
 
     conn.close()
@@ -364,15 +392,18 @@ def laporan_klinik():
     return render_template(
         "admin/laporan.html",
         total_pasien=total_pasien,
+        pasien=pasien,
+        antrean=antrean,
         poli_umum=poli_umum,
         poli_gigi=poli_gigi,
         poli_anak=poli_anak,
         menunggu=menunggu,
         diperiksa=diperiksa,
         selesai=selesai,
-        riwayat=riwayat
+        riwayat=riwayat,
+        keyword =keyword
     )
-
+    
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)

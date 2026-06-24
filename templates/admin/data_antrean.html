@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Antrean</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-slate-800 mb-6"> Data Antrean</h1>
+
+        <div class="bg-white rounded-2xl shadow overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-4">Nomor Antrean</th>
+                        <th class="p-4">Nama Pasien</th>
+                        <th class="p-4">Poli</th>
+                        <th class="p-4">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in antrean %}
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-4 font-bold"> {{ a.no_antrean }}</td>
+                        <td class="p-4"> {{ a.nama }}</td>
+                        <td class="p-4"> {{ a.poli }}</td>
+                        <td class="p-4"> {% if a.status == "MENUNGGU" %}
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
+                                    MENUNGGU
+                                </span>
+
+                            {% elif a.status == "DIPERIKSA" %}
+                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+                                    DIPERIKSA
+                                </span>
+
+                            {% else %}
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                                    SELESAI
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="p-6 text-center text-slate-500">
+                            Belum ada data antrean.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="/" class="inline-block mt-6 text-blue-600 font-semibold"> ← Kembali </a>
+    </div>
+</body>
+</html>

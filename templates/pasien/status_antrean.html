@@ -6,41 +6,28 @@
     <title>Status Antrean Saya</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-6">
-
     <div class="bg-white shadow-lg rounded-3xl p-8 w-full max-w-xl">
-
-        <h1 class="text-3xl font-bold text-slate-800 mb-6">
-            Status Antrean Saya
-        </h1>
+        <h1 class="text-3xl font-bold text-slate-800 mb-6">Status Antrean Saya</h1>
 
         {% if antrean %}
-
         <div class="space-y-5">
-
             <!-- Nama -->
             <div>
                 <p class="text-slate-500">Nama Pasien</p>
-                <p class="font-semibold text-lg">
-                    {{ antrean.nama }}
-                </p>
+                <p class="font-semibold text-lg"> {{ antrean.nama }}</p>
             </div>
 
             <!-- Nomor Antrean -->
             <div>
                 <p class="text-slate-500">Nomor Antrean</p>
-                <p class="text-4xl font-bold text-blue-600">
-                    {{ antrean.no_antrean }}
-                </p>
+                <p class="text-4xl font-bold text-blue-600">{{ antrean.no_antrean }}</p>
             </div>
 
             <!-- Poli -->
             <div>
                 <p class="text-slate-500">Poli</p>
-                <p class="font-semibold">
-                    {{ antrean.poli }}
-                </p>
+                <p class="font-semibold">{{ antrean.poli }}</p>
             </div>
 
             <!-- Status -->
@@ -49,21 +36,15 @@
 
                 {% if antrean.status == "MENUNGGU" %}
                     <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200 font-semibold">
-                        <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                        MENUNGGU
-                    </span>
+                        <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>MENUNGGU</span>
 
                 {% elif antrean.status == "DIPERIKSA" %}
                     <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 border border-blue-200 font-semibold">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                        DIPERIKSA
-                    </span>
+                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>DIPERIKSA</span>
 
                 {% elif antrean.status == "SELESAI" %}
                     <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 border border-green-200 font-semibold">
-                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                        SELESAI
-                    </span>
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span> SELESAI</span>
                 {% endif %}
             </div>
 
@@ -72,40 +53,28 @@
                 <p class="text-slate-500">Estimasi Waktu</p>
 
                 {% if antrean.status == "MENUNGGU" %}
-                    <p class="font-semibold mt-1">
-                        {{ estimasi }} menit lagi
-                    </p>
+                    <p class="font-semibold mt-1"> {{ estimasi }} menit lagi</p>
 
                 {% elif antrean.status == "DIPERIKSA" %}
-                    <p class="font-semibold text-blue-600 mt-1">
-                        Sedang diperiksa dokter
-                    </p>
+                    <p class="font-semibold text-blue-600 mt-1">Sedang diperiksa dokter</p>
 
                 {% elif antrean.status == "SELESAI" %}
-                    <p class="font-semibold text-green-600 mt-1">
-                        Pemeriksaan selesai
-                    </p>
+                    <p class="font-semibold text-green-600 mt-1">Pemeriksaan selesai</p>
                 {% endif %}
             </div>
-
         </div>
 
         {% else %}
-
-        <p class="text-slate-500">
-            Belum ada data antrean.
-        </p>
-
+        <p class="text-slate-500"> Belum ada data antrean</p>
         {% endif %}
-
-        <div class="mt-8">
-            <a href="/ambil-antrean"
-               class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition">
-                Ambil Antrean Lagi
-            </a>
+        {% if antrean.status == "SELESAI" %}
+            <div class="mt-8 flex gap-3">
+                <a href="/ambil-antrean" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl">
+                    Ambil Antrean Lagi
+                </a>
+                <a href="/" class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl"> Keluar</a>
+            </div>
+            {% endif %}
         </div>
-
-    </div>
-
-</body>
+    </body>
 </html>

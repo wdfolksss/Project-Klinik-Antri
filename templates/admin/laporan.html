@@ -6,52 +6,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen p-6">
-
     <div class="max-w-6xl mx-auto">
-
-        <h1 class="text-3xl font-bold text-slate-800 mb-2">
-            Laporan Klinik
-        </h1>
-        <p class="text-slate-500 mb-8">
-            Ringkasan data antrean dan riwayat rekam medis pasien.
-        </p>
+        <h1 class="text-3xl font-bold text-slate-800 mb-2">Laporan Klinik</h1>
+        <p class="text-slate-500 mb-8"> Ringkasan data antrean dan riwayat rekam medis pasien</p>
 
         <div class="grid md:grid-cols-3 gap-5 mb-8">
             <div class="bg-white p-6 rounded-2xl shadow">
                 <p class="text-slate-500">Total Pasien Hari Ini</p>
-                <h2 class="text-3xl font-bold text-blue-600 mt-2">
-                    {{ total_pasien }}
-                </h2>
+                <h2 class="text-3xl font-bold text-blue-600 mt-2"> {{ total_pasien }} </h2>
                 <p class="text-slate-500">pasien</p>
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow">
                 <p class="text-slate-500">Pasien Menunggu</p>
-                <h2 class="text-3xl font-bold text-yellow-600 mt-2">
-                    {{ menunggu }}
-                </h2>
+                <h2 class="text-3xl font-bold text-yellow-600 mt-2"> {{ menunggu }} </h2>
                 <p class="text-slate-500">pasien</p>
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow">
                 <p class="text-slate-500">Pasien Sedang Diperiksa</p>
-                <h2 class="text-3xl font-bold text-blue-600 mt-2">
-                    {{ diperiksa }}
-                </h2>
+                <h2 class="text-3xl font-bold text-blue-600 mt-2"> {{ diperiksa }} </h2>
                 <p class="text-slate-500">pasien</p>
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow">
                 <p class="text-slate-500">Pasien Selesai</p>
-                <h2 class="text-3xl font-bold text-green-600 mt-2">
-                    {{ selesai }}
-                </h2>
+                <h2 class="text-3xl font-bold text-green-600 mt-2"> {{ selesai }} </h2>
                 <p class="text-slate-500">pasien</p>
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow md:col-span-2">
                 <p class="text-slate-500 mb-4">Total Pasien per Poli</p>
-
                 <div class="space-y-3">
                     <div class="flex justify-between">
                         <span>Poli Umum</span>
@@ -73,9 +58,16 @@
 
         <div class="bg-white rounded-2xl shadow overflow-hidden">
             <div class="p-6 border-b">
-                <h2 class="text-2xl font-bold text-slate-800">
-                    Riwayat Rekam Medis
-                </h2>
+                <h2 class="text-2xl font-bold text-slate-800">Riwayat Rekam Medis</h2>
+            </div>
+            <div class="px-6 py-3 bg-blue-50 border-b">
+                <p class="text-blue-700 font-medium">Ditemukan {{ riwayat|length }} data</p>
+            </div>
+            <div class="p-6 border-b bg-slate-50">
+                <form method="GET" class="flex gap-3">
+                    <input type="text" name="keyword" placeholder="Cari nama pasien..." value="{{ keyword }}" class="flex-1 border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" >
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition">Cari</button>
+                </form>
             </div>
 
             <table class="w-full text-left">
@@ -100,20 +92,71 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="4" class="p-6 text-center text-slate-500">
-                            Belum ada data rekam medis.
-                        </td>
+                        <td colspan="4" class="p-6 text-center text-slate-500">Belum ada data rekam medis </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <a href="/" class="inline-block mt-6 text-blue-600 font-semibold">
-            ← Kembali
-        </a>
+        <div class="bg-white rounded-2xl shadow mt-8 overflow-hidden">
+            <div class="p-6 border-b">
+                <h2 class="text-2xl font-bold">Data Pasien</h2>
+            </div>
 
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-4">NIK</th>
+                        <th class="p-4">Nama</th>
+                        <th class="p-4">Umur</th>
+                        <th class="p-4">JK</th>
+                        <th class="p-4">No HP</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for p in pasien %}
+                    <tr class="border-b">
+                        <td class="p-4">{{ p.nik }}</td>
+                        <td class="p-4">{{ p.nama }}</td>
+                        <td class="p-4">{{ p.umur }}</td>
+                        <td class="p-4">{{ p.jenis_kelamin }}</td>
+                        <td class="p-4">{{ p.no_hp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow mt-8 overflow-hidden">
+            <div class="p-6 border-b">
+                <h2 class="text-2xl font-bold">Data Antrean</h2>
+            </div>
+
+            <table class="w-full text-left">
+                <thead class="bg-slate-800 text-white">
+                    <tr>
+                        <th class="p-4">Nomor</th>
+                        <th class="p-4">Nama</th>
+                        <th class="p-4">Poli</th>
+                        <th class="p-4">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for a in antrean %}
+                    <tr class="border-b">
+                        <td class="p-4">{{ a.no_antrean }}</td>
+                        <td class="p-4">{{ a.nama }}</td>
+                        <td class="p-4">{{ a.poli }}</td>
+                        <td class="p-4">{{ a.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="/" class="inline-block mt-6 text-blue-600 font-semibold">  ← Kembali </a>
     </div>
-
 </body>
 </html>
